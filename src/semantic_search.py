@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import gc
 
 gc.enable()
-path0 = format(os.path.abspath(os.path.join(os.getcwd(), "../..")))
+path0 = format(os.path.abspath(os.path.join(os.getcwd(), "..")))
 path = path0 + '\dataset'
 path1 = path0 + '\output\\tfidf_matrix.txt'
 path2 = path0 + '\output\\name.txt'
@@ -17,6 +17,7 @@ path2 = path0 + '\output\\name.txt'
 FileList = []
 data = list()
 
+gc.enable()
 # 以下时文件读取部分
 for home, dirs, files in os.walk(path):
 	for filename in files:
@@ -32,28 +33,23 @@ for file in FileList:
 
 # 以下时文件处理部分
 vectorizer = CountVectorizer(stop_words='english', lowercase=True)
+# 生成词频矩阵
 count = vectorizer.fit_transform(data)
 feature_name = vectorizer.get_feature_names_out()
 print(count.shape)
 transformer = TfidfTransformer()
-tf_idf = transformer.fit_transform(vectorizer.fit_transform(data))
+# 计算tf-idf
+tfidf = transformer.fit_transform(count)
 
+# 存储tf-idf和文件列表
 with open(path1, 'wb') as txt:
 	pickle.dump(feature_name, txt)
-	pickle.dump(tf_idf, txt)
+	pickle.dump(tfidf, txt)
 	txt.close()
 with open(path2, 'wb') as txt:
 	pickle.dump(FileList, txt)
 	txt.close()
 
-gc.enable()
-with open(path1, 'rb') as txt:
-	feature_name = pickle.load(txt)
-	tfidf = pickle.load(txt)
-	txt.close()
-with open(path2, 'rb') as txt:
-	filename = pickle.load(txt)
-	txt.close()
 
 print("请输入查询的词集合")
 # 例如输入 “word company”
@@ -68,7 +64,7 @@ fileindex = list()
 for i in range(10):
 	similarity.append(0)
 	fileindex.append(0)
-for j in range(len(filename)):
+for j in range(len(FileList)):
 	a = str(cosine_similarity(query_tfidf, tfidf[j]).flatten())
 	b = float(a.replace('[', '').replace(']', ''))
 	if b > min(similarity):
@@ -78,7 +74,7 @@ z = zip(similarity, fileindex)
 z = sorted(z, reverse=True)
 similarity, fileindex = zip(*z)
 for i in range(10):
-	print(filename[fileindex[i]], ': ', similarity[i])
-	with open(filename[fileindex[i]], 'r', encoding='utf-8') as j:
+	print(FileList[fileindex[i]], ': ', similarity[i])
+	with open(FileList[fileindex[i]], 'r', encoding='utf-8') as j:
 		graph = json.load(j)
 		print('Graph: ', graph['thread']['main_image'])
