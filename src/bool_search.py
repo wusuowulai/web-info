@@ -20,10 +20,10 @@ search_num = 10
 # bool检索命令行返回相关度前10的文档
 
 
-path1 = './US_Financial_News_Articles/'
+path1 = './dataset/US_Financial_News_Articles/'
 #os.makedirs("./WordSegmentation_US_Financial_News_Articles/")
 #print(ifmkdir)
-path2 = './WordSegmentation_US_Financial_News_Articles/'
+#path2 = './WordSegmentation_US_Financial_News_Articles/'
 path3 = './'
 
 stem_snowball = nltk.stem.SnowballStemmer('english')
@@ -99,14 +99,14 @@ for file_name1 in file_list1:
 print("creating an inverted Index table")    
                 
 # 输出结果
-output = open(path3 + 'IndexTable.txt','w')
+output = open(path3 + 'output/IndexTable.txt','w')
 output.write(json.dumps(table))
 output.close()
 
 #############################################################
 
 
-file = open(path3 + 'IndexTable.txt','r')
+file = open(path3 + 'output/IndexTable.txt','r')
 IndexTable = file.read()
 IndexTable = json.loads(IndexTable)
 
