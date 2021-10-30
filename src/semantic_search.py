@@ -1,5 +1,5 @@
 # author:yyk
-# version:3.7.2
+# version:3.8.8
 import json
 import pickle
 import os
@@ -26,6 +26,7 @@ for file in FileList:
 	with open(file, 'r', encoding='utf-8') as j:
 		info = json.load(j)
 		word2 = info['text']
+		word2.join(info['title'])
 		# 添加到列表中
 		data.append(word2)
 		# 存储对应的文件路径以及文件名(后续所有文件通过数字代替进行处理)
@@ -62,7 +63,7 @@ query_tfidf = transformer.fit_transform(vectorizer.fit_transform(query))
 similarity = list()
 fileindex = list()
 for i in range(10):
-	similarity.append(0)
+	similarity.append(1)
 	fileindex.append(0)
 for j in range(len(FileList)):
 	a = str(cosine_similarity(query_tfidf, tfidf[j]).flatten())
@@ -74,7 +75,7 @@ z = zip(similarity, fileindex)
 z = sorted(z, reverse=True)
 similarity, fileindex = zip(*z)
 for i in range(10):
-	print(FileList[fileindex[i]], ': ', similarity[i])
+	print(FileList[fileindex[i]])
 	with open(FileList[fileindex[i]], 'r', encoding='utf-8') as j:
 		graph = json.load(j)
 		print('Graph: ', graph['thread']['main_image'])
