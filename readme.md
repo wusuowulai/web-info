@@ -12,9 +12,8 @@
 
 2. 编译运行方式
 
-   运行python3 bool_search.py，建立过中间文件及倒排表过后，会出现提示用户输入，将想要查询的目标按照规范布尔检索格式输入即可。对应结果将存放至./search_result.txt文件，命令行会返回排序后用户设定num个数的原文件路径。
+   运行python3 ./src/bool_search.py，建立过中间文件及倒排表过后，会出现提示用户输入，将想要查询的目标按照规范布尔检索格式输入即可。对应结果将存放至./output/bool_search_result.txt文件，命令行会返回排序后用户设定ser\arch_num个数的原文件路径。
 
-3. 运行所需空间
 
 ### <center>TF-IDF</center>
 
