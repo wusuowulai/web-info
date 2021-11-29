@@ -1,0 +1,1 @@
+fisrt version -- hit@5 0.21~0.25 --Only use train.txt datas

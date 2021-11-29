@@ -30,13 +30,16 @@ def data_loader(dir):
 		if n < triple[1]:
 			n = triple[1]
 	for i in range(int(n) + 1):
-		entity_set.add(i)
-		entity2id[i] = i
+		entity_set.add(int(i))
+		entity2id[int(i)] = int(i)
 	relation_file = 'relation_with_text.txt'
-	relation_df = pd.read_table(os.path.join(dir, relation_file), header=None)
-	relation2id = dict(zip(relation_df[0], relation_df[0]))
+	with open(dir + relation_file) as f:
+		content = f.readlines()
+		for line in content:
+			relation = line.strip().split('\t')
+			relation2id[int(relation[0])] = int(relation[0])
 	for i in range(len(relation2id)):
-		relation_set.add(i)
+		relation_set.add(int(i))
 	return entity_set, relation_set, triple_list
 
 def distanceL2(h, r, t):
